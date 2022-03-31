@@ -3,39 +3,61 @@ let continuidad=0, precio=0, opcion=0;
 let total=0;
 let cantidad= 0;
 
+//Clase
+class Productos{
+    constructor(modelo, precio, stock){
+        this.modelo=modelo;
+        this.precio=parseInt(precio);
+        this.stock=parseInt(stock);
+    }
+
+    modStock(c){
+        this.stock= this.stock - c;
+    }
+}
+
+//Array de objetos
+const arrayProductos = [];
+arrayProductos.push(new Productos ("ropero", 3500, 7)); 
+arrayProductos.push(new Productos ("modular", 3000, 15));  
+arrayProductos.push(new Productos ("perchero", 800, 30));
+
+
 if(confirmacion=="si")
 {
     function agregarAlCarro()
     {
-            let close=0;
-            do{
-                let producto = prompt("Elija entre los siguientes productos:\n- Ropero $3500\n- Modular $3000\n- Perchero $800").toLowerCase();
             
-                switch(producto){
-                case "ropero":
-                    cantidad = prompt("Usted ingreso Ropero, ingrese la cantidad que queria:");
-                    precio=3500;
-
-                    break;
-                case "modular":
-                    cantidad = prompt("Usted ingreso Modular, ingrese la cantidad que queria:");
-                    precio=3000;
-
-                    break;
-                case "perchero":
-                    cantidad = prompt("Usted ingreso Perchero, ingrese la cantidad que queria:");
-                    precio=800;
-
-                    break;
-                default:
+            do{
+                let close=0;
+                let producto = parseInt(prompt("Elija entre los siguientes productos, segun el numero:\n1_ Ropero $3500\n2_ Modular $3000\n3_ Perchero $800"));
+                
+                //Corroboro el producto...
+                if(producto != 1 && producto != 2 && producto != 3)
+                {   
                     continuidad = confirm("Ustedes se equivoco elijiendo ¿desea reintentarlo?");
                     if(continuidad) continue;
                     else close++;
                 }
                 if(close==1) break;
-                total=total+(cantidad*precio);
-                alert("Usted elijio "+ producto + " del cual pidio "+ cantidad +" lo que le da un total de "+total);
-                continuidad = confirm("¿Desea continuar elijiendo?");
+
+
+                let cantidad=parseInt(prompt("Elijio "+arrayProductos[producto-1].modelo+" Ingrese la cantidad a solicitar:"));
+
+                if (arrayProductos[producto-1].stock < cantidad || Number.isNaN(cantidad)){
+                    continuidad = confirm("No tenemos suficiente stock en este momento\n¿Desea continuar elijiendo?");
+                    precio=0;
+                    cantidad=0;
+
+                }
+                else{
+                    arrayProductos[producto-1].modStock(cantidad);
+                    total=total+(cantidad*arrayProductos[producto-1].precio);
+                    alert("¡Excelente sea agregado a su carrito exitosamente!");
+
+                    continuidad = confirm("Usted elijio "+ arrayProductos[producto-1].modelo + " del cual pidio "+ cantidad +" lo que le da un total de "+total+"\n¿Desea continuar elijiendo?");
+                }
+
             }while(continuidad)
     }
 
