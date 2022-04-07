@@ -17,11 +17,11 @@ class Productos{
 }
 
 //Array de objetos
-const arrayProductos = [];
+let arrayProductos = [];
 arrayProductos.push(new Productos ("ropero", 3500, 7)); 
 arrayProductos.push(new Productos ("modular", 3000, 15));  
 arrayProductos.push(new Productos ("perchero", 800, 30));
-
+console.log(arrayProductos.length);
 
 if(confirmacion=="si")
 {
@@ -30,7 +30,7 @@ if(confirmacion=="si")
             
             do{
                 let close=0;
-                let producto = parseInt(prompt("Elija entre los siguientes productos, segun el numero:\n1_ Ropero $3500\n2_ Modular $3000\n3_ Perchero $800"));
+                let producto =limiteDeCompra();
                 
                 //Corroboro el producto...
                 if(producto != 1 && producto != 2 && producto != 3)
@@ -43,12 +43,19 @@ if(confirmacion=="si")
 
 
                 let cantidad=parseInt(prompt("Elijio "+arrayProductos[producto-1].modelo+" Ingrese la cantidad a solicitar:"));
+                if(cantidad < 0 || cantidad != Number)
+                {   
+                    continuidad = confirm("Ustedes se equivoco elijiendo ¿desea reintentarlo?");
+                    if(continuidad) continue;
+                    else close++;
+                }
+                if(close==1) break;
+
 
                 if (arrayProductos[producto-1].stock < cantidad || Number.isNaN(cantidad)){
                     continuidad = confirm("No tenemos suficiente stock en este momento\n¿Desea continuar elijiendo?");
                     precio=0;
                     cantidad=0;
-
                 }
                 else{
                     arrayProductos[producto-1].modStock(cantidad);
@@ -77,6 +84,21 @@ if(confirmacion=="si")
         return total;
 
 
+    }
+
+    function limiteDeCompra(){
+        let productoAlcanzado = [];
+        montoMax = prompt("Ingrese el monto maximo de su presupuesto");
+        productoAlcanzado = arrayProductos.filter((el) => el.precio<=montoMax);
+
+        let texto = '';
+        let i=0;
+        while(i<productoAlcanzado.length){
+            texto = texto.concat(i+1,'. ', productoAlcanzado[i].modelo, '\n');
+            i++;
+        }
+    
+        return producto1=parseInt(prompt("Su presupuesto es de " + montoMax + ", le alcanza para comprar " + (productoAlcanzado.length)+" productos:\n"+texto));
     }
 
     function metodoDePago(total){
@@ -116,11 +138,11 @@ if(confirmacion=="si")
         }while(num==1);
     }
 
-}
+
 
 agregarAlCarro();
 metodoDePago(envio(total));
-
+}
 
 alert("¡Hasta luego!");
 
