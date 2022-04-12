@@ -1,8 +1,10 @@
 let confirmacion = prompt("Bienvenido ¿desea comenzar a agregar productos al carrito?\n si/no").toLowerCase();
 let continuidad=0, precio=0, opcion=0;
 let total=0;
-let cantidad= 0;
+let cantidad= 0
+let carrito=[];
 
+let pedido= document.getElementById("pedido");
 //Clase
 class Productos{
     constructor(modelo, precio, stock){
@@ -31,6 +33,7 @@ if(confirmacion=="si")
             do{
                 let close=0;
                 let producto =limiteDeCompra();
+                console.log(producto);
                 
                 //Corroboro el producto...
                 if(producto != 1 && producto != 2 && producto != 3)
@@ -43,7 +46,8 @@ if(confirmacion=="si")
 
 
                 let cantidad=parseInt(prompt("Elijio "+arrayProductos[producto-1].modelo+" Ingrese la cantidad a solicitar:"));
-                if(cantidad < 0 || cantidad != Number)
+                console.log(cantidad);
+                if(cantidad < 0 || Number.isNaN(cantidad))
                 {   
                     continuidad = confirm("Ustedes se equivoco elijiendo ¿desea reintentarlo?");
                     if(continuidad) continue;
@@ -63,22 +67,24 @@ if(confirmacion=="si")
                     alert("¡Excelente sea agregado a su carrito exitosamente!");
 
                     continuidad = confirm("Usted elijio "+ arrayProductos[producto-1].modelo + " del cual pidio "+ cantidad +" lo que le da un total de "+total+"\n¿Desea continuar elijiendo?");
+                    pedido.innerText= pedido.innerText + "Producto: " + arrayProductos[producto-1].modelo + " | Cantidad: "+ cantidad+"\n"; 
                 }
 
             }while(continuidad)
+            pedido.innerText= pedido.innerText + "Sub-Total: " + total+ "\n";
     }
 
     function envio(total){
         console.log(total);
-        confirmacion = confirm("¿Desea que se lo envien a domicilio?");
+        confirmacion = confirm("¿Desea que se lo envien a domicilio?\nEl envio esta $25 por cada Km");
         let envio=0;
         if(confirmacion){
             domicilio=prompt("Ingrese su domicilio:");
             let km=Math.floor(Math.random()*(1000-1+1)+1);
-            let envio= 25*km;
+            envio= 25*km;
             total=total+envio;
             alert("Su domicilio esta a "+ km +"Km por lo que se le cobrara:\n$"+envio);
-            confirmacion= confirm("¿Aceptar envio de todos modos?");
+            pedido.innerText= pedido.innerText + "Envio: " + envio+"\n";
         }
         else alert("Usted no acepto el envio, por lo que, lo puede venir a retirar al local localizado en:\n Mitre y 24 Berazategui");
         return total;
@@ -88,7 +94,7 @@ if(confirmacion=="si")
 
     function limiteDeCompra(){
         let productoAlcanzado = [];
-        montoMax = prompt("Ingrese el monto maximo de su presupuesto");
+        montoMax = prompt("Ingrese el monto por el cual pagaria cada producto:");
         productoAlcanzado = arrayProductos.filter((el) => el.precio<=montoMax);
 
         let texto = '';
@@ -109,6 +115,7 @@ if(confirmacion=="si")
                 if(opcion){ 
                     total = total + ((total*5)/100);
                     alert("El total a pagar es " + total);
+                    pedido.innerText= pedido.innerText + "Aumento del 5%: " + (total*5)/100+"\n";
                     verificacion(); 
                 }    
                 else metodoDePago();
@@ -123,6 +130,7 @@ if(confirmacion=="si")
                 alert("Usted elijio el metodo de pago EFECTIVO, el cual pagara en el momento de recibir el producto");
                 break;
         }
+        return total;
     }
 
     function verificacion(){
@@ -141,7 +149,8 @@ if(confirmacion=="si")
 
 
 agregarAlCarro();
-metodoDePago(envio(total));
+let final=metodoDePago(envio(total))
+pedido.innerText= pedido.innerText + "TOTAL: "+ final;
 }
 
 alert("¡Hasta luego!");
