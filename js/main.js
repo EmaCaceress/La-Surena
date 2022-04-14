@@ -1,13 +1,30 @@
-let confirmacion = prompt("Bienvenido ¿desea comenzar a agregar productos al carrito?\n si/no").toLowerCase();
+let confirmacion = 0;
 let continuidad=0, precio=0, opcion=0;
 let total=0;
 let cantidad= 0
 let carrito=[];
 
 let pedido= document.getElementById("pedido");
+let start= document.getElementById("start");
+let end= document.getElementById("end");
+
+start.addEventListener("click",()=>{
+    pedido.innerText= "";
+    agregarAlCarro();
+    let final=metodoDePago(envio(total))
+    pedido.innerText= pedido.innerText + "TOTAL: "+ final;
+});
+
+end.addEventListener("click",()=>{
+    if(pedido.innerText.includes("Sub"))
+    pedido.innerText= "¡Pedido Enviado Correctamente!";
+});
+
+
 //Clase
 class Productos{
-    constructor(modelo, precio, stock){
+    constructor(id,modelo, precio, stock){
+        this.id=id;
         this.modelo=modelo;
         this.precio=parseInt(precio);
         this.stock=parseInt(stock);
@@ -20,16 +37,14 @@ class Productos{
 
 //Array de objetos
 let arrayProductos = [];
-arrayProductos.push(new Productos ("ropero", 3500, 7)); 
-arrayProductos.push(new Productos ("modular", 3000, 15));  
-arrayProductos.push(new Productos ("perchero", 800, 30));
+arrayProductos.push(new Productos ("1","ropero", 3500, 7)); 
+arrayProductos.push(new Productos ("2","modular", 3000, 15));  
+arrayProductos.push(new Productos ("3","perchero", 800, 30));
 console.log(arrayProductos.length);
 
-if(confirmacion=="si")
-{
+
     function agregarAlCarro()
     {
-            
             do{
                 let close=0;
                 let producto =limiteDeCompra();
@@ -38,18 +53,17 @@ if(confirmacion=="si")
                 //Corroboro el producto...
                 if(producto != 1 && producto != 2 && producto != 3)
                 {   
-                    continuidad = confirm("Ustedes se equivoco elijiendo ¿desea reintentarlo?");
+                    continuidad = confirm("Usted se equivoco elijiendo ¿desea reintentarlo?");
                     if(continuidad) continue;
                     else close++;
                 }
                 if(close==1) break;
 
-
                 let cantidad=parseInt(prompt("Elijio "+arrayProductos[producto-1].modelo+" Ingrese la cantidad a solicitar:"));
                 console.log(cantidad);
                 if(cantidad < 0 || Number.isNaN(cantidad))
                 {   
-                    continuidad = confirm("Ustedes se equivoco elijiendo ¿desea reintentarlo?");
+                    continuidad = confirm("Usted se equivoco elijiendo ¿desea reintentarlo?");
                     if(continuidad) continue;
                     else close++;
                 }
@@ -100,11 +114,12 @@ if(confirmacion=="si")
         let texto = '';
         let i=0;
         while(i<productoAlcanzado.length){
-            texto = texto.concat(i+1,'. ', productoAlcanzado[i].modelo, '\n');
+            texto = texto.concat(productoAlcanzado[i].id,'. ', productoAlcanzado[i].modelo, '\n');
             i++;
         }
+
     
-        return producto1=parseInt(prompt("Su presupuesto es de " + montoMax + ", le alcanza para comprar " + (productoAlcanzado.length)+" productos:\n"+texto));
+        return producto1=parseInt(prompt("Su presupuesto es de " + montoMax + ", le alcanza para comprar " + (productoAlcanzado.length)+" productos:\n"+texto+"Selecciones por ID"));
     }
 
     function metodoDePago(total){
@@ -130,7 +145,7 @@ if(confirmacion=="si")
                 alert("Usted elijio el metodo de pago EFECTIVO, el cual pagara en el momento de recibir el producto");
                 break;
         }
-        return total;
+        return pedido.innerText= pedido.innerText + "TOTAL: "+ final;
     }
 
     function verificacion(){
@@ -145,13 +160,4 @@ if(confirmacion=="si")
             }
         }while(num==1);
     }
-
-
-
-agregarAlCarro();
-let final=metodoDePago(envio(total))
-pedido.innerText= pedido.innerText + "TOTAL: "+ final;
-}
-
-alert("¡Hasta luego!");
 
