@@ -3,23 +3,24 @@ let continuidad=0, precio=0, opcion=0;
 let total=0;
 let cantidad= 0
 let carrito=[];
+let carroP=[];
+let carroC=[];
 
 let pedido= document.getElementById("pedido");
 let start= document.getElementById("start");
 let end= document.getElementById("end");
-
+let dir= document.getElementById("agregarEnvio");
+let checkbox = document.getElementsByClassName("checkbox");
+let tarjeta= document.getElementById("tarjeta");
+let calculo= document.getElementById("total");
+/*
 start.addEventListener("click",()=>{
     pedido.innerText= "";
     agregarAlCarro();
     let final=metodoDePago(envio(total))
     pedido.innerText= pedido.innerText + "TOTAL: "+ final;
 });
-
-end.addEventListener("click",()=>{
-    if(pedido.innerText.includes("Sub"))
-    pedido.innerText= "¡Pedido Enviado Correctamente!";
-});
-
+*/
 
 //Clase
 class Productos{
@@ -42,70 +43,120 @@ arrayProductos.push(new Productos ("2","modular", 3000, 15));
 arrayProductos.push(new Productos ("3","perchero", 800, 30));
 console.log(arrayProductos.length);
 
+    //Agregar al Carrito
+    let boton= document.getElementsByClassName("boton");
+    let cant= document.getElementsByClassName("cant");
 
-    function agregarAlCarro()
+    for(i=0;i<boton.length;i++)
     {
-            do{
-                let close=0;
-                let producto =limiteDeCompra();
+        boton[i].addEventListener("click",(e)=>{
+            console.log(e.target.name);
+            let numBoton=e.target.name;
+            carroC.push(cant[numBoton-1].value);
+            console.log(carroC[i]);
+            carroP.push(e.target.name);
+
+            localStorage.setItem("carritoP",carroP);
+            localStorage.setItem("carritoC",carroC);
+            alert("¡Excelente se agrego a su carrito exitosamente!");
+        });
+    }
+
+    //imprimir en Entregas el carrito
+    let listaP=localStorage.getItem("carritoP").split(",");
+    let listaC=localStorage.getItem("carritoC").split(",");
+            for(i=0;i<listaP.length;i++)
+            {
+                let producto = listaP[i];
+                let cantidad = listaC[i];
                 console.log(producto);
-                
-                //Corroboro el producto...
-                if(producto != 1 && producto != 2 && producto != 3)
-                {   
-                    continuidad = confirm("Usted se equivoco elijiendo ¿desea reintentarlo?");
-                    if(continuidad) continue;
-                    else close++;
-                }
-                if(close==1) break;
-
-                let cantidad=parseInt(prompt("Elijio "+arrayProductos[producto-1].modelo+" Ingrese la cantidad a solicitar:"));
                 console.log(cantidad);
-                if(cantidad < 0 || Number.isNaN(cantidad))
-                {   
-                    continuidad = confirm("Usted se equivoco elijiendo ¿desea reintentarlo?");
-                    if(continuidad) continue;
-                    else close++;
-                }
-                if(close==1) break;
+                total=total+(cantidad*arrayProductos[producto-1].precio);
+                pedido.innerText= pedido.innerText + "Producto: " + arrayProductos[producto-1].modelo+" | Cantidad: "+cantidad+"\n";
+            }
+            pedido.innerText= pedido.innerText + "Sub-Total: $" + total+ "\n";
 
 
-                if (arrayProductos[producto-1].stock < cantidad || Number.isNaN(cantidad)){
-                    continuidad = confirm("No tenemos suficiente stock en este momento\n¿Desea continuar elijiendo?");
-                    precio=0;
-                    cantidad=0;
-                }
-                else{
-                    arrayProductos[producto-1].modStock(cantidad);
-                    total=total+(cantidad*arrayProductos[producto-1].precio);
-                    alert("¡Excelente sea agregado a su carrito exitosamente!");
 
-                    continuidad = confirm("Usted elijio "+ arrayProductos[producto-1].modelo + " del cual pidio "+ cantidad +" lo que le da un total de "+total+"\n¿Desea continuar elijiendo?");
-                    pedido.innerText= pedido.innerText + "Producto: " + arrayProductos[producto-1].modelo + " | Cantidad: "+ cantidad+"\n"; 
-                }
 
-            }while(continuidad)
-            pedido.innerText= pedido.innerText + "Sub-Total: " + total+ "\n";
-    }
+    //Va en Seccion Entregas
 
-    function envio(total){
-        console.log(total);
-        confirmacion = confirm("¿Desea que se lo envien a domicilio?\nEl envio esta $25 por cada Km");
+    dir.addEventListener("click", ()=>{
+        if(pedido.innerText.includes("Envio"))
+        alert("Ya Agrego un Domicilio");
+        else{
+        pedido.innerText= pedido.innerText + "Envio: $" + envio() + "\n";
+        total=total+envio();}
+    });
+
+    function envio(){
+
         let envio=0;
-        if(confirmacion){
-            domicilio=prompt("Ingrese su domicilio:");
-            let km=Math.floor(Math.random()*(1000-1+1)+1);
-            envio= 25*km;
-            total=total+envio;
-            alert("Su domicilio esta a "+ km +"Km por lo que se le cobrara:\n$"+envio);
-            pedido.innerText= pedido.innerText + "Envio: " + envio+"\n";
-        }
-        else alert("Usted no acepto el envio, por lo que, lo puede venir a retirar al local localizado en:\n Mitre y 24 Berazategui");
-        return total;
 
+        domicilio= dir;
+        let km=Math.floor(Math.random()*(1000-1+1)+1);
+        envio= 15*km;
 
+        return envio;
     }
 
+    //Va en Seccion Entregas
+    console.log(checkbox);
+    for(i=0;i<checkbox.length;i++){
+        checkbox[i].addEventListener("click", (element)=>{
+            console.log(element.target.value);
+            metodoDePago(element.target.value);
+        });
+    }
+    let num=1;
+    function metodoDePago(valor){
+
+        if(pedido.innerText.includes("pago"))
+            alert("Ya Agrego un Metodo de Pago");
+        else{
+            let pago = valor;
+
+            switch(pago){
+                case "option1":
+                    if(verificacion()==2){
+                    total = total + ((total*5)/100);
+                    pedido.innerText= pedido.innerText + "Metodo de pago: Tarjeta de Credito\n" + "Aumento del 5%: " + (total*5)/100+"\n";
+                    }
+                    break;
+                case "option2":
+                    if(verificacion()==2)
+                    pedido.innerText= pedido.innerText + "Metodo de pago: Tarjeta de Debito"+"\n";
+                    
+                    break;  
+                case "option3":
+                    pedido.innerText= pedido.innerText + "Usted elijio el metodo de pago EFECTIVO, el cual pagara en el momento de recibir el producto"+"\n";
+                    break;
+            }
+        }
+    }
+
+    function verificacion(){
+            let numTarjeta = tarjeta.value;
+            if (numTarjeta.length == 16){
+                alert ("¡Pago realizado con exito!");
+                return 2;}
+            else {
+                alert("Su tarjeta es incorrecta\nIngrese nuevamente los digitos y vuelva a seleccionar la opcion");
+            }
+
+    }
+    
+    //Calcular total
+    calculo.addEventListener("click",()=>
+    {
+        if(pedido.innerText.includes("pago") && pedido.innerText.includes("Envio"))
+            pedido.innerText= pedido.innerText + "TOTAL: "+total;
+        else
+            alert("Tiene que completar todo el formulario");
+    }
+    );
+
+    //Va en Seccion Productos
     function limiteDeCompra(){
         let productoAlcanzado = [];
         montoMax = prompt("Ingrese el monto por el cual pagaria cada producto:");
@@ -117,47 +168,15 @@ console.log(arrayProductos.length);
             texto = texto.concat(productoAlcanzado[i].id,'. ', productoAlcanzado[i].modelo, '\n');
             i++;
         }
-
-    
         return producto1=parseInt(prompt("Su presupuesto es de " + montoMax + ", le alcanza para comprar " + (productoAlcanzado.length)+" productos:\n"+texto+"Selecciones por ID"));
     }
 
-    function metodoDePago(total){
-        let pago = parseInt(prompt("Seleccione el metodo de pago\n1.Tarjeta de credito\n2.Tarjeta de debito\n3.Efectivo"));
-        switch(pago){
-            case 1:
-                opcion = confirm("Usted elijio pago con TARJETA DE CREDITO\nEste metodo de pago tiene un interes del 5%\n¿Proceder de todos modos?\n");
-                if(opcion){ 
-                    total = total + ((total*5)/100);
-                    alert("El total a pagar es " + total);
-                    pedido.innerText= pedido.innerText + "Aumento del 5%: " + (total*5)/100+"\n";
-                    verificacion(); 
-                }    
-                else metodoDePago();
-                break;
-    
-            case 2:
-                alert ("Usted elijio pagar con TARJETA DE DEBITO");
-                verificacion();
-                break;  
-    
-            case 3:
-                alert("Usted elijio el metodo de pago EFECTIVO, el cual pagara en el momento de recibir el producto");
-                break;
-        }
-        return pedido.innerText= pedido.innerText + "TOTAL: "+ final;
-    }
+    end.addEventListener("click",()=>{
 
-    function verificacion(){
-        let num= 1;
-        do{
-            let numTarjeta = prompt("Ingrese los 16 digitos de su tarjeta");
-            if (numTarjeta.length == 16){
-                num++;
-                alert ("¡Pago realizado con exito!");}
-            else {
-                alert("Su tarjeta es incorrecta\nIngrese nuevamente los digitos");
-            }
-        }while(num==1);
-    }
-
+        if(pedido.innerText.includes("TOTAL"))
+            pedido.innerText= "¡Pedido Enviado Correctamente!";
+        else if(pedido.innerText.includes("Pedido"))
+            alert("¡Ya fue enviado su pedido!");
+        else
+            alert("Tiene que realizar el calculo primero");
+    });
