@@ -21,7 +21,33 @@ start.addEventListener("click",()=>{
     pedido.innerText= pedido.innerText + "TOTAL: "+ final;
 });
 */
-
+calculo.addEventListener("click",()=>
+{
+    if(pedido.innerText.includes("TOTAL"))
+        Toastify({
+            text: "¡Ya tiene el calculo realizado!",
+            duration: 2000,
+            gravity: 'bottom',
+            position: 'right',
+            style:{background: 'linear-gradient(to right, #00b09b, #96c92d)'}
+            }).showToast();
+    else if(pedido.innerText.includes("pago") && pedido.innerText.includes("Envio"))
+    {
+        Toastify({
+            text: "¡Se agrego el calculo!",
+            duration: 2000,
+            gravity: 'bottom',
+            position: 'right',
+            style:{background: 'linear-gradient(to right, #00b09b, #96c92d)'}
+            }).showToast();
+        pedido.innerText= pedido.innerText + "TOTAL: "+total;}
+    else
+    swal({
+        icon: 'error',
+        title: 'Incorrecto',
+        text: 'Tiene que completar todo el formulario',
+        });
+});
 //Clase
 class Productos{
     constructor(id,modelo, precio, stock){
@@ -44,21 +70,43 @@ arrayProductos.push(new Productos ("3","perchero", 800, 30));
 console.log(arrayProductos.length);
 
     //Agregar al Carrito
-    let boton= document.getElementsByClassName("boton");
+    const boton= document.getElementsByClassName("boton");
     let cant= document.getElementsByClassName("cant");
 
     for(i=0;i<boton.length;i++)
     {
         boton[i].addEventListener("click",(e)=>{
-            console.log(e.target.name);
-            let numBoton=e.target.name;
-            carroC.push(cant[numBoton-1].value);
-            console.log(carroC[i]);
-            carroP.push(e.target.name);
+            
+            numBoton=e.target.name;
+            let condicion=cant[numBoton-1].value || false; //Operadores avanzados
 
-            localStorage.setItem("carritoP",carroP);
-            localStorage.setItem("carritoC",carroC);
-            alert("¡Excelente se agrego a su carrito exitosamente!");
+
+            if(condicion){
+                Toastify({
+                    text: "¡Se agrego a su carrito!",
+                    duration: 2000,
+                    gravity: 'bottom',
+                    position: 'right',
+                    style:{background: 'linear-gradient(to right, #00b09b, #96c92d)'}
+                    }).showToast();
+                console.log(e.target.name);
+
+                carroC.push(cant[numBoton-1].value);
+                console.log(carroC[i]);
+                carroP.push(e.target.name);
+
+                localStorage.setItem("carritoP",carroP);
+                localStorage.setItem("carritoC",carroC);}
+
+            else{
+                Toastify({
+                    text: "No agrego la cantidad al producto",
+                    duration: 2000,
+                    gravity: 'bottom',
+                    position: 'right',
+                    style:{background: 'linear-gradient(to right, #DA2505, #96c92d)'}
+                    }).showToast();
+            }
         });
     }
 
@@ -82,11 +130,23 @@ console.log(arrayProductos.length);
     //Va en Seccion Entregas
 
     dir.addEventListener("click", ()=>{
+
         if(pedido.innerText.includes("Envio"))
-        alert("Ya Agrego un Domicilio");
+        swal({
+            icon: 'error',
+            title: 'Ya agrego un domicilio'
+            })
         else{
         pedido.innerText= pedido.innerText + "Envio: $" + envio() + "\n";
-        total=total+envio();}
+        total=total+envio();
+        Toastify({
+            text: "¡Se agrego su domicilio!",
+            duration: 2000,
+            gravity: 'bottom',
+            position: 'right',
+            style:{background: 'linear-gradient(to right, #00b09b, #96c92d)'}
+            }).showToast();
+    }
     });
 
     function envio(){
@@ -98,8 +158,28 @@ console.log(arrayProductos.length);
         envio= 15*km;
 
         return envio;
+        
     }
 
+    end.addEventListener("click",()=>{
+
+        if(pedido.innerText.includes("TOTAL"))
+            {pedido.innerText= "¡Pedido Enviado Correctamente!";
+            swal({
+                icon: 'success',
+                title: '¡Pedido Enviado!'
+                })}
+        else if(pedido.innerText.includes("Pedido"))
+        swal({
+            icon: 'success',
+            title: '¡Su pedido ya a sido enviado!'
+            })
+        else
+        swal({
+            icon: 'error',
+            title: 'Tiene que completar todo el formulario primero'
+            })
+    });
     //Va en Seccion Entregas
     console.log(checkbox);
     for(i=0;i<checkbox.length;i++){
@@ -109,10 +189,17 @@ console.log(arrayProductos.length);
         });
     }
     let num=1;
+    mod.addEventListener("click", ()=>{
+        pedido.innerText= pedido.innerText + "Metodo de pago: Tarjeta de Credito\n" + "Aumento del 5%: " + (total*5)/100+"\n";
+    });
+
     function metodoDePago(valor){
 
         if(pedido.innerText.includes("pago"))
-            alert("Ya Agrego un Metodo de Pago");
+        swal({
+            icon: 'error',
+            title: 'Ya agrego un metodo de pago'
+            });
         else{
             let pago = valor;
 
@@ -130,6 +217,14 @@ console.log(arrayProductos.length);
                     break;  
                 case "option3":
                     pedido.innerText= pedido.innerText + "Usted elijio el metodo de pago EFECTIVO, el cual pagara en el momento de recibir el producto"+"\n";
+                        Toastify({
+                            text: "¡Se agrego Metodo de pago!",
+                            duration: 2000,
+                            gravity: 'bottom',
+                            position: 'right',
+                            style:{background: 'linear-gradient(to right, #00b09b, #96c92d)'}
+                            }).showToast();
+
                     break;
             }
         }
@@ -138,25 +233,28 @@ console.log(arrayProductos.length);
     function verificacion(){
             let numTarjeta = tarjeta.value;
             if (numTarjeta.length == 16){
-                alert ("¡Pago realizado con exito!");
+                Toastify({
+                    text: "¡Se agrego su Tarjeta!",
+                    duration: 2000,
+                    gravity: 'bottom',
+                    position: 'right',
+                    style:{background: 'linear-gradient(to right, #00b09b, #96c92d)'}
+                    }).showToast();
                 return 2;}
             else {
-                alert("Su tarjeta es incorrecta\nIngrese nuevamente los digitos y vuelva a seleccionar la opcion");
+                swal({
+                    icon: 'error',
+                    title: 'Incorrecto',
+                    text: 'Ingreso una tarjeta incorrecta',
+                    })
             }
 
     }
     
     //Calcular total
-    calculo.addEventListener("click",()=>
-    {
-        if(pedido.innerText.includes("pago") && pedido.innerText.includes("Envio"))
-            pedido.innerText= pedido.innerText + "TOTAL: "+total;
-        else
-            alert("Tiene que completar todo el formulario");
-    }
-    );
 
-    //Va en Seccion Productos
+
+ /*   //Va en Seccion Productos
     function limiteDeCompra(){
         let productoAlcanzado = [];
         montoMax = prompt("Ingrese el monto por el cual pagaria cada producto:");
@@ -169,14 +267,5 @@ console.log(arrayProductos.length);
             i++;
         }
         return producto1=parseInt(prompt("Su presupuesto es de " + montoMax + ", le alcanza para comprar " + (productoAlcanzado.length)+" productos:\n"+texto+"Selecciones por ID"));
-    }
+    }*/
 
-    end.addEventListener("click",()=>{
-
-        if(pedido.innerText.includes("TOTAL"))
-            pedido.innerText= "¡Pedido Enviado Correctamente!";
-        else if(pedido.innerText.includes("Pedido"))
-            alert("¡Ya fue enviado su pedido!");
-        else
-            alert("Tiene que realizar el calculo primero");
-    });
