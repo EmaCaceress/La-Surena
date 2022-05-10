@@ -244,7 +244,7 @@ footer {
 /*                                                 ENTREGAS                                    */
 #entregas__body {
   display: grid;
-  grid-template-rows: 10vh 120vh 10vh;
+  grid-template-rows: 10vh auto 10vh;
   grid-template-columns: 100vw;
   /* Main */ }
   #entregas__body main {

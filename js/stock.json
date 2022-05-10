@@ -1,0 +1,20 @@
+[
+    {
+        "id":"1",
+        "modelo":"ropero",
+        "precio":3500,
+        "stock":7
+    },
+    {
+        "id":"2",
+        "modelo":"modular",
+        "precio":3000,
+        "stock":15
+    },
+    {
+        "id":"3",
+        "modelo":"perchero",
+        "precio":800,
+        "stock":30
+    }
+]
