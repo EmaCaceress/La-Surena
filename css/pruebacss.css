@@ -659,3 +659,31 @@ footer {
       #index__body footer {
         grid-row: 5/6;
         grid-column: 1/3; } }
+
+        #box{
+          border-radius: 100%;
+          background-color: transparent;
+          width: 40px;
+          height: 50% !important;
+          padding: 0%;
+          position: relative;
+        }
+        .eliminar{
+          border: none;
+          position: absolute;
+          top: 20%;
+          left: 35%;
+          background: none !important;
+        }       
+
+       .metodo{
+         display: inline-block !important;
+       }
+
+       .noMostrar{
+         display: none !important;
+       }
+
+       .mostrar{
+         display: inline !important;
+       }

@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body id="entregas__body">
 
@@ -36,56 +37,23 @@
     </header>
 
     <main>
-
         <section>
                 <div class="form-group">
+                  <label for="exampleFormControlInput1">Nombre y Apellido</label>
+                  <input type="text" class="form-control" required id="exampleFormControlInput1" placeholder="Ricardo Montaner">
                   <label for="exampleFormControlInput1">Direccion de correo</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                  <input type="email" class="form-control" required id="exampleFormControlInput1" placeholder="name@example.com">
+                  <label for="exampleFormControlInput1">Telefono</label>
+                  <input type="number" class="form-control" required id="exampleFormControlInput1" placeholder="11 56549925">
                 </div>
-                <br>
-                <div class="form-group">
-                  <button type="submit" class="form-control" style="background-color: #5CDF6A; text-align: center;" id="start">¡EMPEZAR A CREAR TU PEDIDO!</button>
-                  <br>
-                </div>
-                <label for="exampleFormControlInput1">Insertar domicilio</label>
-                    <div class="input-group mb-3">
-                      <button class="input-group-text" id="agregarEnvio" style="background-color: #5CDF6A;color:white">Agregar</button>
-                      <input type="text" class="form-control" placeholder="ej; 111 1567" aria-describedby="basic-addon1" id="envio">
-                    </div>
-                    <fieldset class="form-group">
-                      <div class="row">
-                        <legend class="col-form-label col-sm-2 pt-0">Metodo de pago</legend>
-                        <div class="col-sm-10">
-                          <button type="submit" class="btn btn-primary" id="modificar">Modificar Metodo De Pago</button>
-                          <div class="form-check">
-                            <input class="form-check-input checkbox" type="radio" name="gridRadios" id="gridRadios1" value="option1">
-                            <label class="form-check-label" for="gridRadios1">
-                              Tarjeta de Credito
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <input class="form-check-input checkbox" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                            <label class="form-check-label" for="gridRadios2">
-                              Tarjeta de Debito
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <input class="form-check-input checkbox" type="radio" name="gridRadios" id="gridRadios3" value="option3">
-                            <label class="form-check-label" for="gridRadios3">
-                              Pago en Efectivo
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleFormControlInput1">Numero de Tarjeta</label>
-                        <input class="form-control" id="tarjeta" placeholder="4012888888881881">
-                      </div>
-                    </fieldset>
-                    <br>
-                    <label for="exampleFormControlTextarea1">Lista de Pedido</label>
-                    <h1 class="form-control" id="pedido" rows="3"></h1>
-                <br>
+                    <!-- <label for="exampleFormControlTextarea1">Lista de Pedido</label>
+                    <h1 class="form-control" id="pedido" rows="3"></h1> -->
+        </section>
+        <section style="text-align: center;">
+          <div class="form-group">
+            <a href="Productos.html" style="text-decoration: none;"><button type="submit" class="form-control btn-primary" style=" text-align: center;" id="start" >¡EMPEZAR A CREAR TU PEDIDO!</button></a>
+            <br>
+          </div>
                 <table class="table">
                   <thead>
                     <tr>
@@ -99,7 +67,53 @@
                   <tbody>
                   </tbody>
                 </table>
-                <button style="display: inline;" type="submit" class="btn btn-primary" id="total">Realizar Total</button>
+                <button style="border:black;display: inline;background-color: #5CDF6A; margin: 3%;" type="submit" class="btn btn-primary" id="total" onclick="decidirPedido('aceptar')">Aceptar pedido</button>
+                <button style="border:black;display: none;background-color: #A71900; margin: 3%;" type="submit" class="btn btn-primary" id="botonDeshacer" onclick="decidirPedido()">Deshacer pedido</button>
+        </section>
+        <section style="display: none;">
+                <fieldset class="form-group" style="    border: 1px solid grey;
+                border-radius: 10px;
+                padding: 5%;">
+                  <div class="row" style="
+                  text-align: center;
+                  align-items: center;
+                  justify-content: space-evenly;">
+                    <div class="col-sm-10">
+                      <legend style="margin-bottom: 5%;">Metodo de Pago</legend>
+                      <div class="form-check metodo">
+                        <input class="form-check-input checkbox" type="radio" name="gridRadios" id="gridRadios1" value="option1">
+                        <label class="form-check-label" for="gridRadios1">
+                          Tarjeta de Credito
+                        </label>
+                      </div>
+                      <div class="form-check metodo">
+                        <input class="form-check-input checkbox" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                        <label class="form-check-label" for="gridRadios2">
+                          Tarjeta de Debito
+                        </label>
+                      </div>
+                      <div class="form-check metodo">
+                        <input class="form-check-input checkbox" type="radio" name="gridRadios" id="gridRadios3" value="option3">
+                        <label class="form-check-label" for="gridRadios3">
+                          Pago en Efectivo
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group" >
+                    <label for="exampleFormControlInput1">Numero de Tarjeta</label>
+                    <input class="form-control" id="tarjeta" placeholder="4012888888881881">
+                  </div>
+
+                </fieldset>
+                <br>
+                <label for="exampleFormControlInput1">Insertar domicilio</label>
+                <div class="input-group mb-3">
+                  <button class="input-group-text" id="agregarEnvio" style="background-color: #5CDF6A;color:white">Agregar</button>
+                  <input type="text" class="form-control" placeholder="ej; 111 1567" aria-describedby="basic-addon1" id="envio">
+                </div>
+                <br>
+                
                 <button type="submit" class="btn btn-primary" id="end">Enviar</button>
         </section>
     </main>

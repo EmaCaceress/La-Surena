@@ -28,7 +28,7 @@ asi puedo agregarle el evento a cada boton y poder targearlos cuando se les haga
 
             localStorage.setItem("carritoP",carroP);
             localStorage.setItem("carritoC",carroC);}
-        else //En caso de que condicion sea "false", se muestra un carter de que no agrego una cantidad
+        else //En caso de que condicion sea "false", se muestra un cartel de que no agrego una cantidad
             Toastify({
                 text: "No agrego la cantidad al producto",
                 duration: 2000,

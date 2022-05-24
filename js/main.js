@@ -19,11 +19,14 @@ let end = document.getElementById("end");
 let dir = document.getElementById("agregarEnvio");
 let checkbox = document.getElementsByClassName("checkbox");
 let tarjeta = document.getElementById("tarjeta");
-let calculo = document.getElementById("total");
+let botonListo = document.getElementById("total");
+let botonDeshacer = document.getElementById("botonDeshacer");
 let boton = document.getElementsByClassName("boton");
 let cant = document.getElementsByClassName("cant");
 let tBody = document.querySelector("tbody");
 let mod=document.getElementById("modificar");
+let botonesEli=document.getElementsByClassName("eliminar");
+let secciones=document.querySelectorAll("section");
 
 /**********************************Clases**********************************/
 
@@ -52,7 +55,9 @@ fetch('/js/stock.json', {
   })
   .then((resp) => resp.json())
   .then((data) => data.map((obj) => arrayProductos.push(new Productos(obj.id, obj.modelo,obj.precio,obj.stock))))
-  .then(()=> console.log(arrayProductos));
+  .then(()=> console.log(arrayProductos))
+  .then(()=>imprimir())
+  .then(()=>eliminar());
 
 console.log(arrayProductos);
 
@@ -60,7 +65,7 @@ console.log("array:"+arrayProductos[0]);
 console.log("cantidad de objetos:"+arrayProductos.length);
 
 /**********************************Funciones de Entregas**********************************/
-function envio() {
+function envio(){
   //Funcion Creada para el evento de "dir"
   let envio = 0;
   domicilio = dir;
@@ -70,10 +75,10 @@ function envio() {
   return envio;
 }
 
-function metodoDePago(valor) {
+function metodoDePago(valor){
   //Funcion para el evento "checkbox"
 
-  /*Se evalua si ya hay un metodo de pago, en caso de haberlo muestra un mensaje de error
+  /*Se evalua si ya hay un metodo de pago, en caso de haberlo muestra un mensaje de error,
   en caso de no haberlo lo agrega*/
   if (tBody.innerHTML.includes('<th scope="pago">'))
     swal({
@@ -106,12 +111,13 @@ function metodoDePago(valor) {
           style: { background: "linear-gradient(to right, #00b09b, #96c92d)" },
         }).showToast();
         break;
+        default:break;
     }
     crearNuevoNodo(nuevoValor);
   }
 }
-console.log(total);
-function verificacion() {
+
+function verificacion(){
   /*Funcion creada para la funcion de metodo de pago
   Esta funcion solo se va a utilizar cuando el usuario elija una opcion de pago con tarjeta*/
   let numTarjeta = tarjeta.value;
@@ -132,19 +138,65 @@ function verificacion() {
     });
 }
 
-function crearNuevoNodo(valor){
+function eliminar(e){//funcion creada para extraer el boton al cual se le hizo target
+  console.log(e);
+  removerNodo(`<th name="${e.name}"`,e.name);
+}
+
+function crearNuevoNodo(valor,num){//crea un nuevo nodo hijo de tBody
+  let crearEliminar=`<td id="box">
+                      <button name="${num}" class="eliminar" onclick="eliminar(this)"><i class="fa fa-times"></i></button>
+                     </td></tr>`;
   let newNodo=document.createElement("tr"); /* ! Crea una nueva fila para tabla de pedidos*/
-  newNodo.innerHTML+= valor;
+  newNodo.innerHTML+= valor+crearEliminar;
   tBody.appendChild(newNodo);
 }
 
-function removerNodo(valor){
+function removerNodo(valor, num){//Remueve un nodo hijo de tBody dependendo al boton de eliminar que se clickeo
   for (let child of tBody.childNodes){
-    if(child.innerHTML !== undefined) child.innerHTML.includes(valor) && tBody.removeChild(child);
-}
+    if(child.innerHTML !== undefined) 
+      if(child.innerHTML.includes(valor)){
+        tBody.removeChild(child);//Eliminamos el nodo
+        // ! Extraemos la lista del localStorage y eliminamos el indice correspondiente al boton
+        let listaP=bajar("carritoP").split(",");
+        let listaC=bajar("carritoC").split(",");
+
+        listaP.splice(num,1);
+        listaC.splice(num,1); 
+
+        // ! Volvemos a cargar la lista con el elemento borrado y refrescamos el pedido
+        subir("carritoP",listaP);
+        subir("carritoC",listaC);
+
+        imprimir(); // ? order's refresh
+      }
+  }
 }
 
-/*   //Va en Seccion Productos
+function decidirPedido(valor){/* Intercala entre dos botones, uno para poder eliminar nodos hijos
+de tBody y otro para confirmar el pedido ademas de agregar la seccion de metodo de pago y envio*/
+  botonListo.classList.toggle("noMostrar");
+  botonDeshacer.classList.toggle("mostrar");
+  secciones[2].classList.toggle("mostrar");
+  if(valor=="aceptar"){
+    for (let boton of botonesEli)
+        boton.onclick = "";// ? Eliminamos el onclick asi no puede modificar mas la lista de pedidos
+        console.log(boton);}
+  else imprimir();
+}
+
+const subir = (key, valor) =>localStorage.setItem(key,valor);
+const bajar = (key) =>localStorage.getItem(key);
+const totalFinal = (agregar) => totalFinal+agregar;
+
+/*
+let contra="hola12345";
+function ingresarContra(){
+if((prompt("Contraseña:")) === contra) alert("ingreso la contraseña correcta");else{alert("contraseña incorrecta");ingresarContra()};
+}
+ingresarContra();*/
+
+/*//Va en Seccion Productos
     function limiteDeCompra(){
         let productoAlcanzado = [];
         montoMax = prompt("Ingrese el monto por el cual pagaria cada producto:");
