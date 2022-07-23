@@ -32,11 +32,14 @@ let secciones=document.querySelectorAll("section");
 
 //Constructor
 class Productos {
-  constructor(id, modelo, precio, stock) {
+  constructor(id, modelo, precio, stock,description,image,section) {
     this.id = id;
     this.modelo = modelo;
     this.precio = parseInt(precio);
     this.stock = parseInt(stock);
+    this.description = description;
+    this.image = image;
+    this.section = section;
   }
 
   modStock(c) {
@@ -46,7 +49,6 @@ class Productos {
 
 //Array de objetos
 let arrayProductos = [];
-
 fetch('/js/stock.json', {
   method: 'GET',
   headers:{
@@ -54,10 +56,21 @@ fetch('/js/stock.json', {
       'Access-Control-Allow-Origin': '*'}
   })
   .then((resp) => resp.json())
-  .then((data) => data.map((obj) => arrayProductos.push(new Productos(obj.id, obj.modelo,obj.precio,obj.stock))))
-  .then(()=> console.log(arrayProductos))
-  .then(()=>imprimir())
-  .then(()=>eliminar());
+  .then((data) => data.map((obj) => arrayProductos.push(new Productos(obj.id, obj.modelo,obj.precio,obj.stock,obj.description,obj.image,obj.section))))
+  .then(()=>{
+    if(prod==3)
+    {      
+      console.log("hola");
+      imprimirProductos();
+    }
+    else if(prod==4){
+      imprimirProducto();
+    }
+    else{
+      imprimir();
+      eliminar();
+    }
+});
 
 console.log(arrayProductos);
 
@@ -188,25 +201,3 @@ de tBody y otro para confirmar el pedido ademas de agregar la seccion de metodo 
 const subir = (key, valor) =>localStorage.setItem(key,valor);
 const bajar = (key) =>localStorage.getItem(key);
 const totalFinal = (agregar) => totalFinal+agregar;
-
-/*
-let contra="hola12345";
-function ingresarContra(){
-if((prompt("Contraseña:")) === contra) alert("ingreso la contraseña correcta");else{alert("contraseña incorrecta");ingresarContra()};
-}
-ingresarContra();*/
-
-/*//Va en Seccion Productos
-    function limiteDeCompra(){
-        let productoAlcanzado = [];
-        montoMax = prompt("Ingrese el monto por el cual pagaria cada producto:");
-        productoAlcanzado = arrayProductos.filter((el) => el.precio<=montoMax);
-
-        let texto = '';
-        let i=0;
-        while(i<productoAlcanzado.length){
-            texto = texto.concat(productoAlcanzado[i].id,'. ', productoAlcanzado[i].modelo, '\n');
-            i++;
-        }
-        return producto1=parseInt(prompt("Su presupuesto es de " + montoMax + ", le alcanza para comprar " + (productoAlcanzado.length)+" productos:\n"+texto+"Selecciones por ID"));
-    }*/

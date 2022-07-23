@@ -1,20 +1,245 @@
 [
     {
         "id":"1",
-        "modelo":"ropero",
+        "modelo":"Ropero de 80",
         "precio":3500,
-        "stock":7
+        "stock":7, 
+        "description":"Ropero de 80 centimetros, echo de pino y terceado.",
+        "image":"../img/ropero80.jpg",
+        "section":"ropero"
     },
     {
         "id":"2",
-        "modelo":"modular",
-        "precio":3000,
-        "stock":15
+        "modelo":"Ropero de 120",
+        "precio":4000,
+        "stock":15, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/ropero120.jpg",
+        "section":"ropero"
     },
     {
         "id":"3",
-        "modelo":"perchero",
-        "precio":800,
-        "stock":30
+        "modelo":"ropero de 140",
+        "precio":4500,
+        "stock":30, 
+        "description":"Ropero de 140 centimetros, echo de pino y terceado.",
+        "image":"../img/ropero140.jpg",
+        "section":"ropero"
+    },
+    {
+        "id":"4",
+        "modelo":"ropero corredizo",
+        "precio":4600,
+        "stock":26, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/roperocorredizo.jpg",
+        "section":"ropero"
+    },
+    {
+        "id":"5",
+        "modelo":"perchero parred doble",
+        "precio":460,
+        "stock":304, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/percheropared2.jpg ",
+        "section":"pechera"
+    },
+    {
+        "id":"6",
+        "modelo":"perchero parred triple",
+        "precio":560,
+        "stock":304, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"url(../img/ropero120.jpg)",
+        "section":"pechera"
+    },
+    {
+        "id":"7",
+        "modelo":"perchero parred cuadruple",
+        "precio":660,
+        "stock":234, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/percheropared3.jpg",
+        "section":"pechera"
+    },
+    {
+        "id":"8",
+        "modelo":"perchero parred quintuple",
+        "precio":760,
+        "stock":210, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/percheropared4.jpg",
+        "section":"pechera"
+    },
+    {
+        "id":"9",
+        "modelo":"perchero alto doble",
+        "precio":1100,
+        "stock":30, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/percheropared5.jpg",
+        "section":"pechera"
+    },
+    {
+        "id":"10",
+        "modelo":"perchero alto triple",
+        "precio":1300,
+        "stock":23, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/percherodoble.jpg",
+        "section":"pechera"
+    },
+    {
+        "id":"11",
+        "modelo":"canasta de mimbre",
+        "precio":500,
+        "stock":104, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/canastodepan.jpg",
+        "section":"canasto"
+    },
+    {
+        "id":"12",
+        "modelo":"canasta de picnic",
+        "precio":460,
+        "stock":24, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/canastodoble.jpg",
+        "section":"canasto"
+    },
+    {
+        "id":"13",
+        "modelo":"cajon de mimbre",
+        "precio":350,
+        "stock":450, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/canastomimbre.jpg",
+        "section":"canasto"
+    },
+    {
+        "id":"14",
+        "modelo":"canasto leñero",
+        "precio":600,
+        "stock":12, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/leñero.jpg",
+        "section":"canasto"
+    },
+    {
+        "id":"15",
+        "modelo":"Sillas economicas",
+        "precio":1300,
+        "stock":40, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/sillaeconomica.jpg",
+        "section":"silla"
+    },
+    {
+        "id":"16",
+        "modelo":"Sillas francesas",
+        "precio":1700,
+        "stock":70, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/sillafrancesa.jpg",
+        "section":"silla"
+    },
+    {
+        "id":"17",
+        "modelo":"Sillas sofias",
+        "precio":1600,
+        "stock":20, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/sillasofia.jpg",
+        "section":"silla"
+    },
+    {
+        "id":"18",
+        "modelo":"Sillas cruz",
+        "precio":1450,
+        "stock":65, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/sillacruz.jpg",
+        "section":"silla"
+    },
+    {
+        "id":"19",
+        "modelo":"Mesa de pino",
+        "precio":2300,
+        "stock":22, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/mesa.jpg",
+        "section":"mesa"
+    },
+    {
+        "id":"20",
+        "modelo":"Mesa plegable",
+        "precio":2000,
+        "stock":21, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/mesaplegable.jpg",
+        "section":"mesa"
+    },
+    {
+        "id":"21",
+        "modelo":"Desayunador de 120",
+        "precio":2600,
+        "stock":56, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/desayunador.jpg",
+        "section":"mesa"
+    },
+    {
+        "id":"22",
+        "modelo":"Quesera de 60",
+        "precio":1600,
+        "stock":26, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/quesera60.jpg",
+        "section":"mesa"
+    },
+    {
+        "id":"23",
+        "modelo":"Quesera de 120",
+        "precio":2800,
+        "stock":12, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/quesera120.jpg",
+        "section":"mesa"
+    },
+    {
+        "id":"23",
+        "modelo":"Repiza triangulo x 3",
+        "precio":900,
+        "stock":12, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/triangulo.webp",
+        "section":"otro"
+    },
+    {
+        "id":"24",
+        "modelo":"Repiza cuadrado x 3",
+        "precio":900,
+        "stock":20, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/cuadrado.jpg",
+        "section":"otro"
+    },
+    {
+        "id":"25",
+        "modelo":"Kilo de mimbre (ramudo)",
+        "precio":350,
+        "stock":20, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/mimbre.jpg",
+        "section":"otro"
+    },
+    {
+        "id":"26",
+        "modelo":"Rascador de espalda",
+        "precio":400,
+        "stock":45, 
+        "description":"Ropero de 120 centimetros, echo de pino y terceado.",
+        "image":"../img/rascador.jpg",
+        "section":"otro"
     }
 ]

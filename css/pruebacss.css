@@ -318,7 +318,6 @@ footer {
     border-bottom: 1px solid black;
     border-radius: 0.7em; }
   .productos__body .card {
-    height: 80vh;
     font-size: 1em;
     overflow: auto; }
   .productos__body .card-img-top {

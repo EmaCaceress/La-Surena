@@ -1,12 +1,9 @@
 /**********************************Eventos de Productos**********************************/
-
-for(i=0;i<boton.length;i++) /*Utilizo un for para la seccion de productos,
-asi puedo agregarle el evento a cada boton y poder targearlos cuando se les haga click*/
-{
-    boton[i].addEventListener("click",(e)=>{
-        
+const prod=3;
+const upStorage=(e)=>{
+        console.log(e.name);
         //En caso de que input de cantidad no devuelva un valor numerico, condicion valdra "false"
-        numBoton=e.target.name;
+        numBoton=e.name;
         let condicion=cant[numBoton-1].value || false; //Operadores avanzados
 
         if(condicion){  /*Si condicion es true, entonces se guarda en local Storage la
@@ -23,7 +20,7 @@ asi puedo agregarle el evento a cada boton y poder targearlos cuando se les haga
             carroC.push(cant[numBoton-1].value);
             console.log(carroC[i]);
 
-            carroP.push(e.target.name);
+            carroP.push(e.name);
             console.log(carroP[i]);
 
             localStorage.setItem("carritoP",carroP);
@@ -36,5 +33,44 @@ asi puedo agregarle el evento a cada boton y poder targearlos cuando se les haga
                 position: 'right',
                 style:{background: 'linear-gradient(to right, #DA2505, #96c92d)'}
                 }).showToast();
-            });
+}
+
+//funcion crear nodos
+const cards = document.getElementsByClassName("card");
+const sectionProductos= document.getElementById("productos");
+const sectionImage=["ropero","pechera","canasto","silla","mesa","otro"];
+
+function crearNuevoNodo(valor){//crea un nuevo nodo hijo de tBody
+    let newNodo=document.createElement("div"); /* ! Crea una nueva fila para tabla de pedidos*/
+    newNodo.innerHTML+= valor;
+    sectionProductos.appendChild(newNodo);
+}
+
+const eleccion = (elemento) =>{
+    const producto= elemento.name;
+    localStorage.setItem("claveProducto",producto);
+}
+
+const imprimirProductos = () =>{
+
+        sectionImage.map(e=>{
+            let card=[];
+            for(let producto of arrayProductos){
+                console.log(producto);
+                if(producto.section===e){
+                card.push(`<div class="card">
+                <img class="animate__animated animate__bounce card-img-top" src=${producto.image}>
+                <div class="card-body">
+                    <h5 class="card-title">${producto.modelo}</h5>
+                </div>
+                <a href="producto.html"><button  type="submit" class="form-control boton" style="background-color: #5CDF6A; text-align: center;" onclick="eleccion(this)" id="boton" name=${producto.id}>Agregar al Carrito</button></a>
+                </div>`)}
+            }
+            crearNuevoNodo(`
+                <div class="imagenes" id=${e}>
+                    <h1>${e}</h1>
+                    ${card.join("")}
+                </div>
+                `
+                );})
 }
