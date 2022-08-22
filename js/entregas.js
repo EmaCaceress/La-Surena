@@ -25,7 +25,7 @@
 //         text: 'Tiene que completar todo el formulario',
 //         });
 // });
-
+const prod=1;
 dir.addEventListener("click", ()=>{ //Evento del boton de envios
 
     if(tBody.innerHTML.includes('<th scope="Envio">'))
@@ -37,7 +37,7 @@ dir.addEventListener("click", ()=>{ //Evento del boton de envios
     let precioE=envio();
     crearNuevoNodo(`<tr class="table-warning"><th scope="Envio"></th><td></td><td></td><td>Envio:</td><td>${precioE}</td></tr>`);
     total=total+precioE;
-    console.log(total);
+
     Toastify({
         text: "¡Se agrego su domicilio!",
         duration: 2000,
@@ -51,16 +51,19 @@ dir.addEventListener("click", ()=>{ //Evento del boton de envios
 end.addEventListener("click",()=>{//Evento del boton de Finalizacion de pedido
 
     if(tBody.innerHTML.includes('<th scope="total">'))
-        {pedido.innerText= "¡Pedido Enviado Correctamente!";
+        {
         swal({
             icon: 'success',
-            title: '¡Pedido Enviado!'
+            title: '¡Su pedido ya a sido enviado!'
             })}
-    else if(pedido.innerText.includes("Pedido"))
-    swal({
-        icon: 'success',
-        title: '¡Su pedido ya a sido enviado!'
+    else if(tBody.innerHTML.includes('<th scope="pago">') && tBody.innerHTML.includes('<th scope="Envio">'))
+    {
+        swal({
+        icon: 'success', 
+        title: '¡Pedido enviado con exito!'
         });
+        crearNuevoNodo(`<tr class="table-warning"><th scope="total"></th><td></td><td></td><td>Total:</td><td>alguno</td></tr>`);
+    }
     else
     swal({
         icon: 'error',
@@ -68,38 +71,31 @@ end.addEventListener("click",()=>{//Evento del boton de Finalizacion de pedido
         });
 });
 
-console.log(checkbox); 
 for(i=0;i<checkbox.length;i++){ //Con un for le agrego a todos los elementos de "checkbox" un evento
     checkbox[i].addEventListener("click", (element)=>{ //Evento de los checkbox
-        console.log(element.target.value);
+
         metodoDePago(element.target.value);
     });
 }
 
-mod.addEventListener("click",()=>{
-    removerNodo('<th scope="pago">');
-    removerNodo('<th scope="total">');
-});
+// mod.addEventListener("click",()=>{
+//     removerNodo('<th scope="pago">');
+//     removerNodo('<th scope="total">');
+// });
 /**********************************Imprimir Pedido**********************************/
 function imprimir(){
     tBody.innerHTML="";
     total=0;
+    i=0;
     //Extraigo del local storage las 2 listas con productos y cantidades
-    let listaP=localStorage.getItem("carritoP").split(",");
-    let listaC=localStorage.getItem("carritoC").split(",");
-    for(i=0;i<listaP.length;i++) /*Con un For empiezo a sumar al total todos los productos
-    con sus cantidades para luego ir imprimiendolas al momento*/
-    {
-        let producto = listaP[i];
-        let cantidad = listaC[i];
-        // console.log(arrayProductos[producto-1].id);
-        // console.log(producto);
-        // console.log(cantidad);
-        // console.log(arrayProductos);
-        crearNuevoNodo(`<tr><th name="${i}" scope="row">${arrayProductos[producto-1].id}</th><td>${arrayProductos[producto-1].modelo}</td><td>${cantidad}</td><td>${arrayProductos[producto-1].precio}</td><td>${(arrayProductos[producto-1].precio)*cantidad}</td>`,i);
-        total=total+(cantidad*arrayProductos[producto-1].precio);
-    }
-    // console.log(total);
+    let carrito=JSON.parse(bajar("carrito"));
+
+    carrito.map(elemento=>{
+        crearNuevoNodo(`<tr><th name="${i}" scope="row">${elemento.id}</th><td>${arrayProductos[elemento.id-1].modelo}</td><td>${elemento.cantidad}</td><td>${arrayProductos[elemento.id-1].precio}</td><td>${(arrayProductos[elemento.id-1].precio)*elemento.cantidad}</td>`,i);
+        total=total+(elemento.cantidad*arrayProductos[elemento.id-1].precio);
+        i++;
+    }) 
+
     /*Una vez terminado el for muestro el sub-total que solo mostraria el total de todo el pedido
     sin agregar envio, intereses y demas*/
     crearNuevoNodo(`<tr class="table-dark"><th scope="subtotal"></th><td></td><td></td><td>Sub-Total:</td><td>${total}</td></tr>`);

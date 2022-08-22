@@ -152,6 +152,9 @@ footer {
       background-color: white; }
     #info__body main section:nth-child(1) {
       background-color: #c3c3c3; }
+        .card-img-top{
+          height: 100%;
+          width: 100%;}
   #info__body #horarios {
     display: grid;
     grid-template-rows: 20% 35% 35%;
@@ -207,6 +210,23 @@ footer {
       #info__body .horas h2 {
         font-size: 0.80rem; } }
   @media only screen and (min-width: 473px) {
+    #carro{
+      grid-row: 3/4;
+      grid-column: 2/3; 
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 1% 0%;
+      align-items: center;
+    }
+    #descripcion{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      grid-row: 2/3;
+      grid-column: 2/3; 
+    }
     #info__body {
       display: grid;
       grid-template-rows: 10vh 80vh 10vh;
@@ -267,6 +287,10 @@ footer {
     #entregas__body main section {
       width: 100%; } }
 
+
+/*                                            PRODUCTO                                         */      
+
+
 /*                                            PRODUCTOS                                         */
 .productos__body {
   /* Aside */
@@ -320,7 +344,7 @@ footer {
   .productos__body .card {
     font-size: 1em;
     overflow: auto; }
-  .productos__body .card-img-top {
+  .productos__body -top {
     height: 50%; }
   .productos__body .card-body {
     height: 50%; }
@@ -343,7 +367,7 @@ footer {
       top: 10%;
       height: 100%;
       background: grey; }
-    .productos__body .container__li {
+    .productos__body __li {
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
@@ -354,7 +378,7 @@ footer {
       background: white;
       border-bottom: 1px solid black;
       box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); }
-    .productos__body #aside__mobile:hover > .container__li {
+    .productos__body #aside__mobile:hover > __li {
       margin-top: 0px; }
     .productos__body footer {
       grid-column: 1/2;

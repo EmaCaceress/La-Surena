@@ -50,7 +50,7 @@
         "precio":560,
         "stock":304, 
         "description":"Ropero de 120 centimetros, echo de pino y terceado.",
-        "image":"url(../img/ropero120.jpg)",
+        "image":"../img/percheropared3.jpg",
         "section":"pechera"
     },
     {
@@ -59,7 +59,7 @@
         "precio":660,
         "stock":234, 
         "description":"Ropero de 120 centimetros, echo de pino y terceado.",
-        "image":"../img/percheropared3.jpg",
+        "image":"../img/percheropared4.jpg",
         "section":"pechera"
     },
     {
@@ -68,7 +68,7 @@
         "precio":760,
         "stock":210, 
         "description":"Ropero de 120 centimetros, echo de pino y terceado.",
-        "image":"../img/percheropared4.jpg",
+        "image":"../img/percheropared5.jpg",
         "section":"pechera"
     },
     {
@@ -77,7 +77,7 @@
         "precio":1100,
         "stock":30, 
         "description":"Ropero de 120 centimetros, echo de pino y terceado.",
-        "image":"../img/percheropared5.jpg",
+        "image":"../img/percherodoble.jpg",
         "section":"pechera"
     },
     {
@@ -86,7 +86,7 @@
         "precio":1300,
         "stock":23, 
         "description":"Ropero de 120 centimetros, echo de pino y terceado.",
-        "image":"../img/percherodoble.jpg",
+        "image":"../img/percherotriple.jpg",
         "section":"pechera"
     },
     {

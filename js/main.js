@@ -11,7 +11,7 @@ let carrito = [];
 let carroP = [];
 let carroC = [];
 let num = 1;
-
+let i=0;
 // Variables del DOM
 let pedido = document.getElementById("pedido");
 let start = document.getElementById("start");
@@ -22,9 +22,9 @@ let tarjeta = document.getElementById("tarjeta");
 let botonListo = document.getElementById("total");
 let botonDeshacer = document.getElementById("botonDeshacer");
 let boton = document.getElementsByClassName("boton");
-let cant = document.getElementsByClassName("cant");
+let cant = document.getElementById("cantidad");
 let tBody = document.querySelector("tbody");
-let mod=document.getElementById("modificar");
+// let mod=document.getElementById("modificar");
 let botonesEli=document.getElementsByClassName("eliminar");
 let secciones=document.querySelectorAll("section");
 
@@ -60,7 +60,6 @@ fetch('/js/stock.json', {
   .then(()=>{
     if(prod==3)
     {      
-      console.log("hola");
       imprimirProductos();
     }
     else if(prod==4){
@@ -72,10 +71,8 @@ fetch('/js/stock.json', {
     }
 });
 
-console.log(arrayProductos);
 
-console.log("array:"+arrayProductos[0]);
-console.log("cantidad de objetos:"+arrayProductos.length);
+
 
 /**********************************Funciones de Entregas**********************************/
 function envio(){
@@ -84,7 +81,7 @@ function envio(){
   domicilio = dir;
   let km = Math.floor(Math.random() * (1000 - 1 + 1) + 1);
   envio = 15 * km;
-  console.log(envio);
+
   return envio;
 }
 
@@ -152,7 +149,7 @@ function verificacion(){
 }
 
 function eliminar(e){//funcion creada para extraer el boton al cual se le hizo target
-  console.log(e);
+
   removerNodo(`<th name="${e.name}"`,e.name);
 }
 
@@ -171,16 +168,10 @@ function removerNodo(valor, num){//Remueve un nodo hijo de tBody dependendo al b
       if(child.innerHTML.includes(valor)){
         tBody.removeChild(child);//Eliminamos el nodo
         // ! Extraemos la lista del localStorage y eliminamos el indice correspondiente al boton
-        let listaP=bajar("carritoP").split(",");
-        let listaC=bajar("carritoC").split(",");
-
-        listaP.splice(num,1);
-        listaC.splice(num,1); 
-
+        let carrito=JSON.parse(bajar("carrito"));
+        carrito.splice(num,1);
         // ! Volvemos a cargar la lista con el elemento borrado y refrescamos el pedido
-        subir("carritoP",listaP);
-        subir("carritoC",listaC);
-
+        subir("carrito",JSON.stringify(carrito));
         imprimir(); // ? order's refresh
       }
   }
@@ -194,10 +185,72 @@ de tBody y otro para confirmar el pedido ademas de agregar la seccion de metodo 
   if(valor=="aceptar"){
     for (let boton of botonesEli)
         boton.onclick = "";// ? Eliminamos el onclick asi no puede modificar mas la lista de pedidos
-        console.log(boton);}
+      }
   else imprimir();
 }
 
 const subir = (key, valor) =>localStorage.setItem(key,valor);
 const bajar = (key) =>localStorage.getItem(key);
 const totalFinal = (agregar) => totalFinal+agregar;
+
+/*************************************Funcion de Productos ***********************************/
+const arrayObjetos=[];
+const upStorage=(e)=>{
+
+  //En caso de que input de cantidad no devuelva un valor numerico, condicion valdra "false"
+  let condicion=cant.value || false; //Operadores avanzados
+  
+  if(condicion && cant.value<=arrayProductos[e-1].stock){  /*Si condicion es true, entonces se guarda en local Storage la
+  cantidad y el producto seleccionado, cada uno en dos listas distintas, pero con la misma
+  posicion*/
+      Toastify({
+          text: "¡Se agrego a su carrito!",
+          duration: 2000,
+          gravity: 'bottom',
+          position: 'right',
+          style:{background: 'linear-gradient(to right, #00b09b, #96c92d)'}
+          }).showToast();
+      if(JSON.parse(bajar("carrito")!==null)){
+        const arrayObjetosBajados=JSON.parse(bajar("carrito"));
+
+        arrayObjetosBajados.map(e=>{
+          arrayObjetos.push(e);
+        });
+      }
+
+      const found = arrayObjetos.find(element => element.id == e);
+
+      const ifDuplicated = (found, list) =>{
+        list.forEach(element => {
+            if(found.id === element.id){ // ! Es duplicado
+                const resultado = parseInt(element.cantidad) + parseInt(cant.value);
+                return element.cantidad=resultado;
+              }
+        });
+      }
+
+      if(found)
+          ifDuplicated(found, arrayObjetos);
+      else{
+          arrayObjetos.push({id:e,cantidad:cant.value});
+      }
+
+      const btn1= document.getElementById("boton1");
+      const btn2= document.getElementById("boton2");
+
+      btn1.classList.toggle("noMostrar");
+      btn2.classList.toggle("noMostrar");
+      const arrayObjetosJson=JSON.stringify(arrayObjetos);
+      subir("carrito",arrayObjetosJson);
+
+}
+  else //En caso de que condicion sea "false", se muestra un cartel de que no agrego una cantidad
+      Toastify({
+          text: "No agrego la cantidad al producto",
+          duration: 2000,
+          gravity: 'bottom',
+          position: 'right',
+          style:{background: 'linear-gradient(to right, #DA2505, #96c92d)'}
+          }).showToast();
+  
+}
