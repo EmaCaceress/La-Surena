@@ -70,7 +70,7 @@
                 <button style="border:black;display: inline;background-color: #5CDF6A; margin: 3%;" type="submit" class="btn btn-primary" id="total" onclick="decidirPedido('aceptar')">Aceptar pedido</button>
                 <button style="border:black;display: none;background-color: #A71900; margin: 3%;" type="submit" class="btn btn-primary" id="botonDeshacer" onclick="decidirPedido()">Deshacer pedido</button>
         </section>
-        <section style="display: none;">
+        <section style="display: none; text-align: center;">
                 <fieldset class="form-group" style="    border: 1px solid grey;
                 border-radius: 10px;
                 padding: 5%;">
@@ -79,19 +79,20 @@
                   align-items: center;
                   justify-content: space-evenly;">
                     <div class="col-sm-10">
-                      <legend style="margin-bottom: 5%;">Metodo de Pago</legend>
+                      <legend style="margin-bottom: 5%;">Metodos de Pagos</legend>
+                      <h6>El metodo de pago con tarjeta de credito, contiene un recargo del 5%, excepto los demas no tienen este interes</h6><br>
                       <div class="form-check metodo">
                         <input class="form-check-input checkbox" type="radio" name="gridRadios" id="gridRadios1" value="option1">
                         <label class="form-check-label" for="gridRadios1">
                           Tarjeta de Credito
                         </label>
-                      </div>
+                      </div><br>
                       <div class="form-check metodo">
                         <input class="form-check-input checkbox" type="radio" name="gridRadios" id="gridRadios2" value="option2">
                         <label class="form-check-label" for="gridRadios2">
                           Tarjeta de Debito
                         </label>
-                      </div>
+                      </div><br>
                       <div class="form-check metodo">
                         <input class="form-check-input checkbox" type="radio" name="gridRadios" id="gridRadios3" value="option3">
                         <label class="form-check-label" for="gridRadios3">
@@ -107,14 +108,14 @@
 
                 </fieldset>
                 <br>
-                <label for="exampleFormControlInput1">Insertar domicilio</label>
+                <label for="exampleFormControlInput1" style="text-align: start; display:block;">Insertar domicilio</label>
                 <div class="input-group mb-3">
                   <button class="input-group-text" id="agregarEnvio" style="background-color: #5CDF6A;color:white">Agregar</button>
                   <input type="text" class="form-control" placeholder="ej; 111 1567" aria-describedby="basic-addon1" id="envio">
                 </div>
                 <br>
                 
-                <button type="submit" class="btn btn-primary" id="end">Enviar</button>
+                <button type="submit" class="btn btn-primary center" id="end">Enviar</button>
         </section>
     </main>
 

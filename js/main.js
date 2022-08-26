@@ -101,8 +101,8 @@ function metodoDePago(valor){
         if (verificacion() == 2) {
           //Verifica la tarjeta ingresada
           let aumento = (total * 5) / 100;
-          total = total + aumento;
-          nuevoValor = `<tr><th scope="pago"></th><td></td><td></td><td>Metodo de Pago:</td><td>Credito</td></tr>`;
+          total += aumento;
+          nuevoValor = `<tr><th scope="pago"></th><td></td><td></td><td>Metodo de Pago:</td><td>Credito 5% | ${aumento} |</td></tr>`;
           //valor += `<tr><th scope="row"></th><td></td><td></td><td>Interes:</td><td>${aumento}</td></tr>`;
         }
         break;
@@ -153,12 +153,14 @@ function eliminar(e){//funcion creada para extraer el boton al cual se le hizo t
   removerNodo(`<th name="${e.name}"`,e.name);
 }
 
-function crearNuevoNodo(valor,num){//crea un nuevo nodo hijo de tBody
+function crearNuevoNodo(valor,num,condicion){//crea un nuevo nodo hijo de tBody
   let crearEliminar=`<td id="box">
                       <button name="${num}" class="eliminar" onclick="eliminar(this)"><i class="fa fa-times"></i></button>
                      </td></tr>`;
   let newNodo=document.createElement("tr"); /* ! Crea una nueva fila para tabla de pedidos*/
-  newNodo.innerHTML+= valor+crearEliminar;
+  condicion 
+    ?  newNodo.innerHTML+= valor+crearEliminar
+    :  newNodo.innerHTML+= valor+"<td id='box'></td>"
   tBody.appendChild(newNodo);
 }
 
@@ -175,6 +177,8 @@ function removerNodo(valor, num){//Remueve un nodo hijo de tBody dependendo al b
         imprimir(); // ? order's refresh
       }
   }
+  if(tBody.firstChild.innerHTML.includes('<th scope="subtotal"'))
+    tBody.removeChild(tBody.firstChild);
 }
 
 function decidirPedido(valor){/* Intercala entre dos botones, uno para poder eliminar nodos hijos

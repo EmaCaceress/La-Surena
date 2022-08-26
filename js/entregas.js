@@ -25,6 +25,7 @@
 //         text: 'Tiene que completar todo el formulario',
 //         });
 // });
+
 const prod=1;
 dir.addEventListener("click", ()=>{ //Evento del boton de envios
 
@@ -36,7 +37,7 @@ dir.addEventListener("click", ()=>{ //Evento del boton de envios
     else{
     let precioE=envio();
     crearNuevoNodo(`<tr class="table-warning"><th scope="Envio"></th><td></td><td></td><td>Envio:</td><td>${precioE}</td></tr>`);
-    total=total+precioE;
+    total+=precioE;
 
     Toastify({
         text: "¡Se agrego su domicilio!",
@@ -62,7 +63,7 @@ end.addEventListener("click",()=>{//Evento del boton de Finalizacion de pedido
         icon: 'success', 
         title: '¡Pedido enviado con exito!'
         });
-        crearNuevoNodo(`<tr class="table-warning"><th scope="total"></th><td></td><td></td><td>Total:</td><td>alguno</td></tr>`);
+        crearNuevoNodo(`<tr class="table-warning"><th scope="total"></th><td></td><td></td><td>Total:</td><td>${total}</td></tr>`);
     }
     else
     swal({
@@ -91,12 +92,13 @@ function imprimir(){
     let carrito=JSON.parse(bajar("carrito"));
 
     carrito.map(elemento=>{
-        crearNuevoNodo(`<tr><th name="${i}" scope="row">${elemento.id}</th><td>${arrayProductos[elemento.id-1].modelo}</td><td>${elemento.cantidad}</td><td>${arrayProductos[elemento.id-1].precio}</td><td>${(arrayProductos[elemento.id-1].precio)*elemento.cantidad}</td>`,i);
+        crearNuevoNodo(`<tr><th name="${i}" scope="row">${elemento.id}</th><td>${arrayProductos[elemento.id-1].modelo}</td><td>${elemento.cantidad}</td><td>${arrayProductos[elemento.id-1].precio}</td><td>${(arrayProductos[elemento.id-1].precio)*elemento.cantidad}</td>`,i,true);
         total=total+(elemento.cantidad*arrayProductos[elemento.id-1].precio);
         i++;
     }) 
 
     /*Una vez terminado el for muestro el sub-total que solo mostraria el total de todo el pedido
     sin agregar envio, intereses y demas*/
-    crearNuevoNodo(`<tr class="table-dark"><th scope="subtotal"></th><td></td><td></td><td>Sub-Total:</td><td>${total}</td></tr>`);
+    carrito.length>0 
+    &&  crearNuevoNodo(`<tr class="table-dark"><th scope="subtotal"></th><td></td><td></td><td>Sub-Total:</td><td>${total}</td></tr>`);
 }
