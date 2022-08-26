@@ -207,7 +207,7 @@
         "section":"mesa"
     },
     {
-        "id":"23",
+        "id":"24",
         "modelo":"Repiza triangulo x 3",
         "precio":900,
         "stock":12, 
@@ -216,7 +216,7 @@
         "section":"otro"
     },
     {
-        "id":"24",
+        "id":"25",
         "modelo":"Repiza cuadrado x 3",
         "precio":900,
         "stock":20, 
@@ -225,7 +225,7 @@
         "section":"otro"
     },
     {
-        "id":"25",
+        "id":"26",
         "modelo":"Kilo de mimbre (ramudo)",
         "precio":350,
         "stock":20, 
@@ -234,7 +234,7 @@
         "section":"otro"
     },
     {
-        "id":"26",
+        "id":"27",
         "modelo":"Rascador de espalda",
         "precio":400,
         "stock":45, 

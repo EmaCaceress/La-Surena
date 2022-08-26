@@ -246,7 +246,7 @@ const upStorage=(e)=>{
 }
   else //En caso de que condicion sea "false", se muestra un cartel de que no agrego una cantidad
       Toastify({
-          text: "No agrego la cantidad al producto",
+          text: "Error",
           duration: 2000,
           gravity: 'bottom',
           position: 'right',
